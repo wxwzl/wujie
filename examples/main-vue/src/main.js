@@ -87,6 +87,25 @@ setupApp({
   props,
   fetch: credentialsFetch,
   degrade,
+  plugins: degrade
+    ? []
+    : [
+        {
+          jsBeforeLoaders: [
+            {
+              content:
+                "window.Selection = window.parent.Selection; window.DataTransfer = window.parent.DataTransfer;document.caretPositionFromPoint=null;",
+            },
+          ],
+        },
+        {
+          jsLoader: (code) => {
+            return code
+              .replace("n.isCollapsed", "n.baseOffset === n.focusOffset")
+              .replace("n.collapsed", "n.startOffset === n.endOffset");
+          },
+        },
+      ],
   ...lifecycles,
 });
 
