@@ -93,14 +93,31 @@ setupApp({
         {
           jsBeforeLoaders: [
             {
-              content:
-                "window.Selection = window.parent.Selection; window.DataTransfer = window.parent.DataTransfer;document.caretPositionFromPoint=null;",
+              callback: (appWindow) => {
+                Object.defineProperties(appWindow, {
+                  Selection: {
+                    get: () => {
+                      return appWindow.__WUJIE?.degrade
+                        ? appWindow.__WUJIE.document.defaultView.Selection
+                        : appWindow.parent.Selection;
+                    },
+                  },
+                  DataTransfer: {
+                    get: () => {
+                      return appWindow.__WUJIE?.degrade
+                        ? appWindow.__WUJIE.document.defaultView.DataTransfer
+                        : appWindow.parent.DataTransfer;
+                    },
+                  },
+                });
+              },
             },
           ],
         },
         {
           jsLoader: (code) => {
             return code
+              .replace("e instanceof t.Node", "e instanceof (window.__WUJIE?.degrade ? window.Node : t.Node)")
               .replace("n.isCollapsed", "n.baseOffset === n.focusOffset")
               .replace("n.collapsed", "n.startOffset === n.endOffset");
           },
