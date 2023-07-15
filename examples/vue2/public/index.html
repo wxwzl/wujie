@@ -6,8 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
     <link href="https://cdn.bootcdn.net/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet" />
-    <!-- <link href="https://cdn.jsdelivr.net/npm/@wangeditor/editor@latest/dist/css/style.css" rel="stylesheet"> -->
-    <link href="https://unpkg.com/@wangeditor/editor@latest/dist/css/style.css" rel="stylesheet" />
+    <link href="https://unpkg.com/@wangeditor/editor@5.1.23/dist/css/style.css" rel="stylesheet" />
     <title><%= htmlWebpackPlugin.options.title %></title>
   </head>
   <body>
@@ -17,7 +16,8 @@
         enable it to continue.</strong
       >
     </noscript>
-    <script src="<%= BASE_URL %>/wangEditor.js"></script>
+    <!-- <script src="<%= BASE_URL %>/wangEditor.js"></script> -->
+    <script src="https://unpkg.com/@wangeditor/editor@5.1.23/dist/index.js"></script>
     <div id="app"></div>
     <!-- built files will be auto injected -->
   </body>
