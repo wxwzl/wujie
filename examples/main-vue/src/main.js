@@ -88,92 +88,80 @@ setupApp({
   fetch: credentialsFetch,
   degrade,
   // 在safari浏览器 有时候可以，有时候不可以。不可以的时候我看节点，这些插件都没有执行，可以的时候safari浏览器贼卡，控制台都打不开
-  plugins: [
-    {
-      jsBeforeLoaders: [
-        {
-          callback: (appWindow) => {
-            console.log("hello0000000",appWindow)
-          },
-        },
-      ],
-    },
-    {
-      jsBeforeLoaders: [
-        {
-          callback: (appWindow) => {
-            Object.defineProperties(appWindow, {
-              Selection: {
-                get: () => {
-                  console.log(appWindow.__WUJIE?.degrade, "appWindow.__WUJIE?.degrade");
-                  return appWindow.__WUJIE?.degrade
-                    ? appWindow.__WUJIE.document.defaultView.Selection
-                    : appWindow.parent.Selection;
-                },
-              },
-              DataTransfer: {
-                get: () => {
-                  console.log(appWindow.__WUJIE?.degrade, "appWindow.__WUJIE?.degrade");
-                  return appWindow.__WUJIE?.degrade
-                    ? appWindow.__WUJIE.document.defaultView.DataTransfer
-                    : appWindow.parent.DataTransfer;
-                },
-              },
-            });
-          },
-        },
-      ],
-    },
-    {
-      jsLoader: (code) => {
-        const newCode = code
-          .replace("e instanceof t.Node", "e instanceof (window.__WUJIE?.degrade ? window.Node : t.Node)")
-          .replace("n.isCollapsed", "n.baseOffset === n.focusOffset")
-          .replace("n.collapsed", "n.startOffset === n.endOffset");
-          console.log(newCode)
-        return newCode;
-      },
-    },
-    // {
-    //   jsBeforeLoaders: [
-    //     {
-    //       callback: (appWindow) => {
-    //         Object.defineProperties(appWindow, {
-    //           Selection: {
-    //             get: () => appWindow.__WUJIE.document.defaultView.Selection,
-    //           },
-    //           DataTransfer: {
-    //             get: () => appWindow.__WUJIE.document.defaultView.DataTransfer,
-    //           },
-    //         });
-    //       },
-    //     },
-    //   ],
-    //   jsLoader: (code) => {
-    //     return code
-    //       .replace("!!t&&e instanceof t.Node", " e !=null&&typeof e.nodeType === 'number'")
-    //       .replace("n.isCollapsed", "n.baseOffset === n.focusOffset")
-    //       .replace("n.collapsed", "n.startOffset === n.endOffset");
-    //   },
-    // },
-  ],
   // plugins: [
   //   {
   //     jsBeforeLoaders: [
   //       {
-  //         content:
-  //           "window.Selection = window.parent.Selection; window.DataTransfer = window.parent.DataTransfer;document.caretPositionFromPoint=null;",
+  //         callback: (appWindow) => {
+  //           console.log("hello0000000", appWindow);
+  //         },
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     jsBeforeLoaders: [
+  //       {
+  //         callback: (appWindow) => {
+  //           Object.defineProperties(appWindow, {
+  //             Selection: {
+  //               get: () => {
+  //                 console.log(appWindow.__WUJIE?.degrade, "appWindow.__WUJIE?.degrade");
+  //                 return appWindow.__WUJIE?.degrade
+  //                   ? appWindow.__WUJIE.document.defaultView.Selection
+  //                   : appWindow.parent.Selection;
+  //               },
+  //             },
+  //             DataTransfer: {
+  //               get: () => {
+  //                 console.log(appWindow.__WUJIE?.degrade, "appWindow.__WUJIE?.degrade");
+  //                 return appWindow.__WUJIE?.degrade
+  //                   ? appWindow.__WUJIE.document.defaultView.DataTransfer
+  //                   : appWindow.parent.DataTransfer;
+  //               },
+  //             },
+  //           });
+  //         },
   //       },
   //     ],
   //   },
   //   {
   //     jsLoader: (code) => {
-  //       return code
+  //       const newCode = code
+  //         .replace("e instanceof t.Node", "e instanceof (window.__WUJIE?.degrade ? window.Node : t.Node)")
   //         .replace("n.isCollapsed", "n.baseOffset === n.focusOffset")
   //         .replace("n.collapsed", "n.startOffset === n.endOffset");
+  //       console.log(newCode);
+  //       return newCode;
   //     },
   //   },
   // ],
+  plugins: [
+    {
+      jsBeforeLoaders: [
+        {
+          callback: (appWindow) => {
+            console.log("hello0000000", appWindow);
+          },
+        },
+      ],
+    },
+    {
+      jsBeforeLoaders: [
+        {
+          content:
+            "window.Selection = window.parent.Selection; window.DataTransfer = window.parent.DataTransfer;document.caretPositionFromPoint=null;",
+        },
+      ],
+    },
+    {
+      jsLoader: (code) => {
+        console.log(333333);
+        return code
+          .replace("n.isCollapsed", "n.baseOffset === n.focusOffset")
+          .replace("n.collapsed", "n.startOffset === n.endOffset");
+      },
+    },
+  ],
   ...lifecycles,
 });
 

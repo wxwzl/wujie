@@ -1,8 +1,8 @@
 <template>
   <div>
     <HelloWorld msg="Vue2示例"></HelloWorld>
-    <div class="content" style="text-align: center;">
-      <p>
+    <div class="content" style="text-align: center;" id="home">
+      <p >
         当前vue版本
         <el-tag style="vertical-align: text-top;" size="small">2.6.11</el-tag>
       </p>
@@ -118,6 +118,9 @@ export default {
 </script>
 
 <style>
+#home p{
+  color:var(--primaryColor)
+}
 :root {
   --host-color: #f16b5f;
 }
