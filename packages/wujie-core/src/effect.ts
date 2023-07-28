@@ -261,46 +261,52 @@ function rewriteAppendOrInsertChild(opts: {
           const { src, text, type, crossOrigin } = element as HTMLScriptElement;
           // 排除js
           if (src && !isMatchUrl(src, getEffectLoaders("jsExcludes", plugins))) {
-            const execScript = (scriptResult: ScriptObject) => {
-              // 假如子应用被连续渲染两次，两次渲染会导致处理流程的交叉污染
-              if (sandbox.iframe === null) return warn(WUJIE_TIPS_REPEAT_RENDER);
-              const onload = () => {
-                manualInvokeElementEvent(element, "load");
-                element = null;
+            const ignore = isMatchUrl(src, getEffectLoaders("jsIgnores", plugins));
+            if (!ignore) {
+              const execScript = (scriptResult: ScriptObject) => {
+                // 假如子应用被连续渲染两次，两次渲染会导致处理流程的交叉污染
+                if (sandbox.iframe === null) return warn(WUJIE_TIPS_REPEAT_RENDER);
+                const onload = () => {
+                  manualInvokeElementEvent(element, "load");
+                  element = null;
+                };
+                insertScriptToIframe({ ...scriptResult, onload }, sandbox.iframe.contentWindow, element);
               };
-              insertScriptToIframe({ ...scriptResult, onload }, sandbox.iframe.contentWindow, element);
-            };
-            const scriptOptions = {
-              src,
-              module: type === "module",
-              crossorigin: crossOrigin !== null,
-              crossoriginType: crossOrigin || "",
-              ignore: isMatchUrl(src, getEffectLoaders("jsIgnores", plugins)),
-              attrs: parseTagAttributes(element.outerHTML),
-            } as ScriptObject;
-            getExternalScripts([scriptOptions], fetch, lifecycles.loadError, fiber).forEach((scriptResult) => {
-              dynamicScriptExecStack = dynamicScriptExecStack.then(() =>
-                scriptResult.contentPromise.then(
-                  (content) => {
-                    if (sandbox.execQueue === null) return warn(WUJIE_TIPS_REPEAT_RENDER);
-                    const execQueueLength = sandbox.execQueue?.length;
-                    sandbox.execQueue.push(() =>
-                      fiber
-                        ? requestIdleCallback(() => {
-                            execScript({ ...scriptResult, content });
-                          })
-                        : execScript({ ...scriptResult, content })
-                    );
-                    // 同步脚本如果都执行完了，需要手动触发执行
-                    if (!execQueueLength) sandbox.execQueue.shift()();
-                  },
-                  () => {
-                    manualInvokeElementEvent(element, "error");
-                    element = null;
-                  }
-                )
-              );
-            });
+              const scriptOptions = {
+                src,
+                module: type === "module",
+                crossorigin: crossOrigin !== null,
+                crossoriginType: crossOrigin || "",
+                ignore,
+                attrs: parseTagAttributes(element.outerHTML),
+              } as ScriptObject;
+              getExternalScripts([scriptOptions], fetch, lifecycles.loadError, fiber).forEach((scriptResult) => {
+                dynamicScriptExecStack = dynamicScriptExecStack.then(() =>
+                  scriptResult.contentPromise.then(
+                    (content) => {
+                      if (sandbox.execQueue === null) return warn(WUJIE_TIPS_REPEAT_RENDER);
+                      const execQueueLength = sandbox.execQueue?.length;
+                      sandbox.execQueue.push(() =>
+                        fiber
+                          ? requestIdleCallback(() => {
+                              execScript({ ...scriptResult, content });
+                            })
+                          : execScript({ ...scriptResult, content })
+                      );
+                      // 同步脚本如果都执行完了，需要手动触发执行
+                      if (!execQueueLength) sandbox.execQueue.shift()();
+                    },
+                    () => {
+                      manualInvokeElementEvent(element, "error");
+                      element = null;
+                    }
+                  )
+                );
+              });
+            } else {
+              const container = rawDocumentQuerySelector.call(iframeDocument, "head");
+              container.appendChild(element);
+            }
           } else {
             const execQueueLength = sandbox.execQueue?.length;
             sandbox.execQueue.push(() =>

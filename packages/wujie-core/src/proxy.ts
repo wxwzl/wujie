@@ -88,18 +88,19 @@ export function proxyGenerator(
         const { shadowRoot, proxyLocation } = iframe.contentWindow.__WUJIE;
         // iframe初始化完成后，webcomponent还未挂在上去，此时运行了主应用代码，必须中止
         if (!shadowRoot) stopMainAppRun();
-        const rawCreateElement = iframe.contentWindow.__WUJIE_RAW_DOCUMENT_CREATE_ELEMENT__;
-        const rawCreateTextNode = iframe.contentWindow.__WUJIE_RAW_DOCUMENT_CREATE_TEXT_NODE__;
+        // const rawCreateElement = iframe.contentWindow.__WUJIE_RAW_DOCUMENT_CREATE_ELEMENT__;
+        // const rawCreateTextNode = iframe.contentWindow.__WUJIE_RAW_DOCUMENT_CREATE_TEXT_NODE__;
         // need fix
         if (propKey === "createElement" || propKey === "createTextNode") {
-          return new Proxy(document[propKey], {
-            apply(_createElement, _ctx, args) {
-              const rawCreateMethod = propKey === "createElement" ? rawCreateElement : rawCreateTextNode;
-              const element = rawCreateMethod.apply(iframe.contentDocument, args);
-              patchElementEffect(element, iframe.contentWindow);
-              return element;
-            },
-          });
+          // return new Proxy(document[propKey], {
+          //   apply(_createElement, _ctx, args) {
+          //     const rawCreateMethod = propKey === "createElement" ? rawCreateElement : rawCreateTextNode;
+          //     const element = rawCreateMethod.apply(iframe.contentDocument, args);
+          //     patchElementEffect(element, iframe.contentWindow);
+          //     return element;
+          //   },
+          // });
+          return Document.prototype[propKey];
         }
         if (propKey === "documentURI" || propKey === "URL") {
           return (proxyLocation as Location).href;

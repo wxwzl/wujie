@@ -384,6 +384,21 @@ function patchDocumentEffect(iframeWindow: Window): void {
   const handlerCallbackMap: WeakMap<EventListenerOrEventListenerObject, EventListenerOrEventListenerObject> =
     new WeakMap();
   const handlerTypeMap: WeakMap<EventListenerOrEventListenerObject, Array<string>> = new WeakMap();
+
+  const rawCreateElement = iframeWindow.__WUJIE_RAW_DOCUMENT_CREATE_ELEMENT__;
+  const rawCreateTextNode = iframeWindow.__WUJIE_RAW_DOCUMENT_CREATE_TEXT_NODE__;
+  iframeWindow.Document.prototype.createElement = function () {
+    const args = Array.prototype.slice.call(arguments, 0);
+    const element = rawCreateElement.apply(iframeWindow.document, args);
+    patchElementEffect(element, iframeWindow);
+    return element;
+  };
+  iframeWindow.Document.prototype.createTextNode = function () {
+    const args = Array.prototype.slice.call(arguments, 0);
+    const element = rawCreateTextNode.apply(iframeWindow.document, args);
+    patchElementEffect(element, iframeWindow);
+    return element;
+  };
   iframeWindow.Document.prototype.addEventListener = function (
     type: string,
     handler: EventListenerOrEventListenerObject,
@@ -498,12 +513,16 @@ function patchDocumentEffect(iframeWindow: Window): void {
       writable: true,
     };
     try {
-      Object.defineProperty(iframeWindow.Document.prototype, propKey, {
-        enumerable: descriptor.enumerable,
-        configurable: true,
-        get: () => sandbox.proxyDocument[propKey],
-        set: undefined,
-      });
+      if (propKey !== "createElement" && propKey !== "createTextNode") {
+        Object.defineProperty(iframeWindow.Document.prototype, propKey, {
+          enumerable: descriptor.enumerable,
+          configurable: true,
+          get: () => sandbox.proxyDocument[propKey],
+          set: function set(val) {
+            sandbox.proxyDocument[propKey] = val;
+          },
+        });
+      }
     } catch (e) {
       warn(e.message);
     }
