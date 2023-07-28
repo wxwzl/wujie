@@ -557,7 +557,9 @@ function patchDocumentEffect(iframeWindow: Window): void {
       enumerable: true,
       configurable: true,
       get: () => sandbox.proxyDocument[propKey],
-      set: undefined,
+      set: function set(val) {
+        sandbox.proxyDocument[propKey] = val;
+      },
     });
   });
   // 运行插件钩子函数
