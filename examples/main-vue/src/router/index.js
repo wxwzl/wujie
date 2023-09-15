@@ -6,6 +6,7 @@ import React16Sub from "../views/React16-sub.vue";
 import React17 from "../views/React17.vue";
 import React17Sub from "../views/React17-sub.vue";
 import Vue2 from "../views/Vue2.vue";
+import qiankun from "../views/qiankun.vue";
 import Vue2Sub from "../views/Vue2-sub.vue";
 import Vite from "../views/Vite.vue";
 import ViteSub from "../views/Vite-sub.vue";
@@ -77,6 +78,11 @@ const routes = [
     path: "/angular12",
     name: "angular12",
     component: Angular12,
+  },
+  {
+    path: "/qiankun",
+    name: "qiankun",
+    component: qiankun,
   },
   {
     path: "/all",

@@ -126,6 +126,21 @@ setupApp({
   degrade,
   ...lifecycles,
 });
+setupApp({
+  name: "qiankun",
+  url: hostMap("//localhost:9000/"),
+  attrs,
+  exec: true,
+  props,
+  fetch: credentialsFetch,
+  degrade,
+  ...lifecycles,
+  plugins: [
+    {
+      jsIgnores: [/-ignore\.js/],
+    },
+  ],
+});
 
 if (window.localStorage.getItem("preload") !== "false") {
   preloadApp({
@@ -146,6 +161,9 @@ if (window.localStorage.getItem("preload") !== "false") {
     });
     preloadApp({
       name: "vite",
+    });
+    preloadApp({
+      name: "qiankun",
     });
   }
 }

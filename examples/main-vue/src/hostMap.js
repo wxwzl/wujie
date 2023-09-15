@@ -7,6 +7,7 @@ const map = {
   "//localhost:7600/": "//wujie-micro.github.io/demo-react16/",
   "//localhost:7700/": "//wujie-micro.github.io/demo-main-react/",
   "//localhost:8000/": "//wujie-micro.github.io/demo-main-vue/",
+  "//localhost:9000/": "//localhost:9000/",
 };
 
 export default function hostMap(host) {

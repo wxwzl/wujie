@@ -62,6 +62,7 @@
         <router-link to="/vite-sub/contact">contact</router-link>
       </div>
       <router-link to="/angular12">angular12</router-link>
+      <router-link to="/qiankun">qiankun</router-link>
       <router-link to="/all">all</router-link>
       <a-button class="menu-icon" type="primary" icon="unordered-list" size="large" @click.stop="active = !active" />
     </div>
