@@ -2,7 +2,8 @@ const { name } = require('./package');
 
 module.exports = {
   webpack: config => {
-    config.output.filename='[name].[chunkhash:8]-ignore.js',
+    config.output.filename='[name].[hash]-ignore.js',
+    config.output.chunkFilename='[name].[hash]-ignore.js',
     config.output.library = `${name}-[name]`;
     config.output.libraryTarget = 'umd';
     config.output.jsonpFunction = `webpackJsonp_${name}`;

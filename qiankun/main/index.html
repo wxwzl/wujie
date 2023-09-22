@@ -1,35 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>QianKun Example</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <title>QianKun Example</title>
-</head>
-
-<body>
-  <div class="mainapp">
-    <!-- 标题栏 -->
-    <header class="mainapp-header">
-      <h1>QianKun</h1>
-    </header>
-    <div class="mainapp-main">
-      <!-- 侧边栏 -->
-      <ul class="mainapp-sidemenu">
-        <li onclick="push('/react16')">React16</li>
+  <body>
+    <div class="mainapp">
+      <!-- 标题栏 -->
+      <header class="mainapp-header">
+        <h1>QianKun</h1>
+      </header>
+      <div class="mainapp-main">
+        <!-- 侧边栏 -->
+        <ul class="mainapp-sidemenu">
+          <!-- <li onclick="push('/react16')">React16</li>
         <li onclick="push('/react15')">React15</li>
         <li onclick="push('/vue')">Vue</li>
         <li onclick="push('/vue3')">Vue3</li>
         <li onclick="push('/angular9')">Angular9</li>
-        <li onclick="push('/purehtml')">Purehtml</li>
-      </ul>
-      <!-- 子应用  -->
-      <main id="subapp-container"></main>
+        <li onclick="push('/purehtml')">Purehtml</li> -->
+          <li id="react16">React16</li>
+          <li id="vue">Vue</li>
+          <li id="vue3">Vue3</li>
+          <li id="angular9">Angular9</li>
+          <li id="purehtml">Purehtml</li>
+        </ul>
+        <!-- 子应用  -->
+        <main id="subapp-container"></main>
+      </div>
     </div>
-  </div>
 
-  <script>
-    function push(subapp) { history.pushState(null, subapp, subapp) }
-  </script>
-</body>
-
+    <script>
+      window.push = function push(subapp) {
+        history.pushState(null, subapp, subapp);
+      };
+      const menus = ["react16", "vue", "vue3", "angular9", "purehtml"];
+      menus.forEach((item) => {
+        document.getElementById(item).addEventListener("click", () => {
+          push("/" + item);
+        });
+      });
+    </script>
+  </body>
 </html>

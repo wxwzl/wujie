@@ -126,20 +126,21 @@ setupApp({
   degrade,
   ...lifecycles,
 });
+console.log(1111);
 setupApp({
   name: "qiankun",
   url: hostMap("//localhost:9000/"),
+  plugins: [
+    {
+      jsIgnores: [/-ignore\.js/],
+    },
+  ],
   attrs,
   exec: true,
   props,
   fetch: credentialsFetch,
   degrade,
   ...lifecycles,
-  plugins: [
-    {
-      jsIgnores: [/-ignore\.js/],
-    },
-  ],
 });
 
 if (window.localStorage.getItem("preload") !== "false") {

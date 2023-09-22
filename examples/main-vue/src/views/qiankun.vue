@@ -1,6 +1,6 @@
 <template>
   <!--单例模式，name相同则复用一个无界实例，改变url则子应用重新渲染实例到对应路由 -->
-  <WujieVue width="100%" height="100%" name="qinakun" :url="vue2Url" :sync="true"></WujieVue>
+  <WujieVue width="100%" height="100%" name="qinakun" :url="vue2Url" :sync="true" :plugins="plugins"></WujieVue>
 </template>
 
 <script>
@@ -10,6 +10,11 @@ export default {
   data() {
     return {
       vue2Url: hostMap("//localhost:9000/"),
+      plugins: [
+        {
+          jsIgnores: [/-ignore\.js/],
+        },
+      ],
     };
   },
   methods: {

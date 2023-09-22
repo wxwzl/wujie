@@ -2,6 +2,7 @@
   "packages": [
     "packages/*",
     "examples/*",
+    "qiankun/*",
     "docs"
   ],
   "npmClient": "pnpm",

@@ -42,6 +42,8 @@ module.exports = {
     },
     output: {
       // 把子应用打包成 umd 库格式
+      filename: "[name].[hash]-ignore.js",
+      chunkFilename: '[name].[hash]-ignore.js',
       library: `${name}-[name]`,
       libraryTarget: 'umd',
       jsonpFunction: `webpackJsonp_${name}`,
