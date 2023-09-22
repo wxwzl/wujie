@@ -886,13 +886,13 @@ importers:
   qiankun/react16:
     specifiers:
       '@rescripts/cli': ^0.0.14
-      antd: ^3.25.2
+      antd: ^3.26.19
       react: ^16.12.0
       react-dom: ^16.12.0
       react-router-dom: ^5.1.2
       react-scripts: ^3.4.1
     dependencies:
-      antd: 3.26.20_5owmthsvj5ictknaj3ev736ofq
+      antd: 3.26.19_5owmthsvj5ictknaj3ev736ofq
       react: 16.13.1
       react-dom: 16.13.1_react@16.13.1
       react-router-dom: 5.3.3_react@16.13.1
@@ -12965,8 +12965,8 @@ packages:
       warning: 4.0.3
     dev: false
 
-  /antd/3.26.20_5owmthsvj5ictknaj3ev736ofq:
-    resolution: {integrity: sha512-VIous4ofZfxFtd9K1h9MpRX2sDDpj3QcOFi3YgIc9B/uyDli/GlLb8SWKfQfJaMkaxwatIv503dag2Tog+hiEg==}
+  /antd/3.26.19_5owmthsvj5ictknaj3ev736ofq:
+    resolution: {integrity: sha512-NcSaI0jMLhdPBoTC7p9qqe8aF9Y+YHWNPNpORY98qYADvO2aXHwyRi0YUAZLauDCvDWNTfeiACBeQaFvUhXApQ==}
     peerDependencies:
       react: '>=16.0.0'
       react-dom: '>=16.0.0'
@@ -14706,7 +14706,7 @@ packages:
       mkdirp: 0.5.6
       move-concurrently: 1.0.1
       p-map: 3.0.0
-      promise-inflight: 1.0.1
+      promise-inflight: 1.0.1_bluebird@3.7.2
       rimraf: 2.7.1
       ssri: 7.1.1
       unique-filename: 1.1.1

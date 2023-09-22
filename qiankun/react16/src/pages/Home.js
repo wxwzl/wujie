@@ -1,9 +1,12 @@
-import React from 'react';
-
-export default function() {
+import React from "react";
+import AntComponents from "../components/AntComponents";
+export default function () {
   return (
-    <h2 className="app-nav-item" style={{ borderColor: 'red' }}>
-      Home
-    </h2>
+    <div>
+      <h2 className="app-nav-item" style={{ borderColor: "red" }}>
+        Home
+      </h2>
+      <AntComponents></AntComponents>
+    </div>
   );
 }
