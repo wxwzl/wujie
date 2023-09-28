@@ -40,26 +40,24 @@ const Home = () => (
 
 function Nav() {
   const history = useHistory();
-  const routerJump = path =>  history.push(path)
+  const routerJump = (path) => history.push(path);
   // 主应用告诉子应用跳转路由
   useEffect(() => {
     window.$wujie?.bus.$on("react17-router-change", routerJump);
-  }, [])
+  }, []);
 
   // 在 react17-sub 路由下主动告知主应用路由跳转，主应用也跳到相应路由高亮菜单栏
-  const location = useLocation()
+  const location = useLocation();
   useEffect(() => {
-    window.$wujie?.bus.$emit('sub-route-change', "react17", location.pathname)
-  }, [location])
+    window.$wujie?.bus.$emit("sub-route-change", "react17", location.pathname);
+  }, [location]);
 
   return (
     <nav>
-    <NavLink to="/home">首页</NavLink> | <NavLink to="/dialog">弹窗</NavLink> |{" "}
-    <NavLink to="/location">路由</NavLink> | <NavLink to="/communication">通信</NavLink> |{" "}
-    <NavLink to="/state">状态</NavLink>
-  </nav>
-
-  )
+      <NavLink to="/home">首页</NavLink> | <NavLink to="/dialog">弹窗</NavLink> | <NavLink to="/location">路由</NavLink>{" "}
+      | <NavLink to="/communication">通信</NavLink> | <NavLink to="/state">状态</NavLink>
+    </nav>
+  );
 }
 
 function App() {

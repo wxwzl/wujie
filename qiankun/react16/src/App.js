@@ -30,6 +30,9 @@ const RouteExample = () => {
 };
 
 export default function App() {
+  const testNode = document.createElement("div");
+  testNode.style = "height:500px";
+  document.body.appendChild(testNode);
   return (
     <div className="app-main">
       <LibVersion />
