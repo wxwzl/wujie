@@ -388,19 +388,7 @@ function patchDocumentEffect(iframeWindow: Window): void {
   const rawCreateElement = iframeWindow.__WUJIE_RAW_DOCUMENT_CREATE_ELEMENT__;
   const rawCreateTextNode = iframeWindow.__WUJIE_RAW_DOCUMENT_CREATE_TEXT_NODE__;
   const proxyLocation = iframeWindow.__WUJIE.proxyLocation as Location;
-  Object.defineProperties(iframeWindow.HTMLElement.prototype, {
-    baseURI: {
-      configurable: true,
-      get: () => proxyLocation.protocol + "//" + proxyLocation.host + proxyLocation.pathname,
-      set: undefined,
-    },
-    ownerDocument: {
-      configurable: true,
-      get: () => iframeWindow.document,
-    },
-    _hasPatch: { get: () => true },
-  });
-  Object.defineProperties(iframeWindow.Element.prototype, {
+  Object.defineProperties(iframeWindow.Node.prototype, {
     baseURI: {
       configurable: true,
       get: () => proxyLocation.protocol + "//" + proxyLocation.host + proxyLocation.pathname,
