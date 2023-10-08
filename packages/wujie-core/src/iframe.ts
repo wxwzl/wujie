@@ -387,19 +387,9 @@ function patchDocumentEffect(iframeWindow: Window): void {
 
   const rawCreateElement = iframeWindow.__WUJIE_RAW_DOCUMENT_CREATE_ELEMENT__;
   const rawCreateTextNode = iframeWindow.__WUJIE_RAW_DOCUMENT_CREATE_TEXT_NODE__;
-  const proxyLocation = iframeWindow.__WUJIE.proxyLocation as Location;
-  Object.defineProperties(iframeWindow.Node.prototype, {
-    baseURI: {
-      configurable: true,
-      get: () => proxyLocation.protocol + "//" + proxyLocation.host + proxyLocation.pathname,
-      set: undefined,
-    },
-    ownerDocument: {
-      configurable: true,
-      get: () => iframeWindow.document,
-    },
-    _hasPatch: { get: () => true },
-  });
+  patchElementEffect(iframeWindow.Node.prototype, iframeWindow, false);
+  patchElementEffect(iframeWindow.HTMLElement.prototype, iframeWindow, false);
+  patchElementEffect(iframeWindow.Element.prototype, iframeWindow, false);
   iframeWindow.Document.prototype.createElement = function () {
     const args = Array.prototype.slice.call(arguments, 0);
     const element = rawCreateElement.apply(iframeWindow.document, args);
@@ -692,7 +682,8 @@ function stopIframeLoading(iframeWindow: Window) {
 
 export function patchElementEffect(
   element: (HTMLElement | Node | ShadowRoot) & { _hasPatch?: boolean },
-  iframeWindow: Window
+  iframeWindow: Window,
+  emitHook: boolean = true
 ): void {
   const proxyLocation = iframeWindow.__WUJIE.proxyLocation as Location;
   if (element._hasPatch) return;
@@ -708,7 +699,9 @@ export function patchElementEffect(
     },
     _hasPatch: { get: () => true },
   });
-  execHooks(iframeWindow.__WUJIE.plugins, "patchElementHook", element, iframeWindow);
+  if (emitHook) {
+    execHooks(iframeWindow.__WUJIE.plugins, "patchElementHook", element, iframeWindow);
+  }
 }
 
 /**
