@@ -686,7 +686,7 @@ export function patchElementEffect(
   emitHook: boolean = true
 ): void {
   const proxyLocation = iframeWindow.__WUJIE.proxyLocation as Location;
-  if (element._hasPatch) return;
+  if (emitHook && element._hasPatch) return;
   Object.defineProperties(element, {
     baseURI: {
       configurable: true,
