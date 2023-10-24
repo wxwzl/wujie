@@ -21,6 +21,7 @@
         <li onclick="push('/angular9')">Angular9</li>
         <li onclick="push('/purehtml')">Purehtml</li> -->
           <li id="react16">React16</li>
+          <li id="react18">React18</li>
           <li id="vue">Vue</li>
           <li id="vue3">Vue3</li>
           <li id="angular9">Angular9</li>
@@ -35,7 +36,7 @@
       window.push = function push(subapp) {
         history.pushState(null, subapp, subapp);
       };
-      const menus = ["react16", "vue", "vue3", "angular9", "purehtml"];
+      const menus = ["react16","react18", "vue", "vue3", "angular9", "purehtml"];
       menus.forEach((item) => {
         document.getElementById(item).addEventListener("click", () => {
           push("/" + item);

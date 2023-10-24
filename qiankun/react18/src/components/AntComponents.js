@@ -2,7 +2,7 @@ import { Select, TimePicker } from "antd";
 import React from "react";
 const { Option } = Select;
 
-export default function () {
+export default  function AntComponents() {
   function onChange(value) {
     console.log(`selected ${value}`);
   }
