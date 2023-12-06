@@ -1,2 +1,0 @@
-(window["webpackJsonp_qiankun-sub-react16"]=window["webpackJsonp_qiankun-sub-react16"]||[]).push([[3],{165:function(e,n,a){"use strict";a.r(n);var t=a(0),r=a.n(t);n.default=function(){return r.a.createElement("h2",{className:"app-nav-item",style:{borderColor:"green"}},"About")}}}]);
-//# sourceMappingURL=3.012e98ee.chunk.js.map
